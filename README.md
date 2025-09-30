@@ -7,7 +7,7 @@ Colocalization analysis for UoL Asthma MUC5AC project.
      
 2. xQTL data for healthy individuals in lung (GTEx eQTL, sQTL, mQTL, apaQTL (regular, conditional)
    - Regular vs. Conditional mQTL: Regular mQTLs report all marginal genotype–methylation associations, while conditional mQTLs provide the independent effects after adjusting for other signals at the same CpG.
-   - For GTEx v10, fine-mapped eQTL, sQTL and apaQTL are provided
+   - For GTEx v10, fine-mapped eQTL, sQTL and apaQTL are provided but these files have no beta or SE or p reported
      
 3.  Single-cell eQTL data from scQTLbase (https://bioinfo.szbl.ac.cn/scQTLbase/)
    - Aquino-2023-Nature // Peripheral blood cells
