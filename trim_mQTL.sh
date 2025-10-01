@@ -20,4 +20,5 @@ zcat Lung.mQTLs.conditional.txt.gz | awk '{ if (substr($2,1,5)=="chr11") print }
 hostname
 date
 
-
+## These files are still too large for R to process
+## Change to .fdr.txt instead
