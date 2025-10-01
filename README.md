@@ -6,8 +6,9 @@ Colocalization analysis for UoL Asthma MUC5AC project.
    - LD matrix from selected UKB_EUR cohort
      
 2. xQTL data for healthy individuals in lung (GTEx eQTL, sQTL, mQTL, apaQTL (regular, conditional)
-   - Regular vs. Conditional mQTL: Regular mQTLs report all marginal genotype–methylation associations, while conditional mQTLs provide the independent effects after adjusting for other signals at the same CpG.
+   - Regular vs. Conditional mQTL: Regular mQTLs report all marginal genotype–methylation associations, while conditional mQTLs provide the independent effects after adjusting for other signals at the same CpG. But we used regular mQTLs (permutated) at the end since the other files were too large and noisy
    - For GTEx v10, fine-mapped eQTL, sQTL and apaQTL are provided but these files have no beta or SE or p reported
+   - For pQTL, we need to manually calculate FDR based on the whole set then subset for mucin region
      
 3.  Single-cell eQTL data from scQTLbase (https://bioinfo.szbl.ac.cn/scQTLbase/)
    - Aquino-2023-Nature // Peripheral blood cells
@@ -24,5 +25,19 @@ Colocalization analysis for UoL Asthma MUC5AC project.
    - YAZAR-2022-Science // peripheral blood mononuclear cells
 
 # Analysis Pipeline
-1. GWAS + GTEx QTLs
-2. GWAS + scQTLs (done online at https://bioinfo.szbl.ac.cn/scQTLbase/Colocalization/)
+1. GWAS + GTEx QTLs (R Project)
+1.1 Load and subset GWAS summary (df1)
+1.2 Load all QTL sets
+   - df2 = eQTLs (N = 2)
+   - df3 = sQTLs (N = 1)
+   - df4 = apaQTLs ( N = 0)
+   - df5 = mQTLs (N = 36)
+   - df6 = pQTLs (N = 0)
+*NOTE: All QTL sets are trimmed based on variant ID: chr11_pos_ref_alt_b38 (tried to flip ref and alt too)*
+1.3 Merge all QTL sets and prepare coloc objects from GWAS and QTL
+1.4 coloc.abf
+*NOTE: Only 1 mQTL passed coloc QC (PP.H4 = 1) chr11_1219991_G_T_b38*
+1.5 Mirror plot
+
+
+3. GWAS + scQTLs (done online at https://bioinfo.szbl.ac.cn/scQTLbase/Colocalization/)
