@@ -33,11 +33,18 @@ Colocalization analysis for UoL Asthma MUC5AC project.
    - df4 = apaQTLs ( N = 0)
    - df5 = mQTLs (N = 36)
    - df6 = pQTLs (N = 0)  
-*NOTE: All QTL sets are trimmed based on variant ID: chr11_pos_ref_alt_b38 (tried to flip ref and alt too)*  
+*NOTE: All QTL sets are trimmed based on variant ID: chr11_pos_ref_alt_b38 (tried to flip ref and alt too)*
+
 1.3 Merge all QTL sets and prepare coloc objects from GWAS and QTL  
 1.4 coloc.abf  
    - Only 1 mQTL passed coloc QC (PP.H4 = 1) chr11_1219991_G_T_b38
    - This is mQTL for 3 cpg sites: cg22186557, cg16842717, cg03298405
+   - 
+seqnames    ranges strand |       names
+         <Rle> <IRanges>  <Rle> | <character>
+  [1]    chr11   1238933      * |  cg22186557
+  [2]    chr11   1231041      * |  cg16842717
+  [3]    chr11   1221197      * |  cg03298405
 
 1.5 Mirror plot  
 
