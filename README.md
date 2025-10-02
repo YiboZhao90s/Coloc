@@ -37,7 +37,7 @@ Colocalization analysis for UoL Asthma MUC5AC project.
 
 1.3 Merge all QTL sets and prepare coloc objects from GWAS and QTL  
 1.4 coloc.abf  
-   - Only 1 mQTL passed coloc QC (PP.H4 = 1) chr11_1219991_G_T_b38
+   - Only 1 mQTL passed coloc QC (PP.H4 = 1) chr11_1219991_G_T_b38 (rs35705950)
    - This is mQTL for 3 cpg sites: cg22186557, cg16842717, cg03298405
    - 
 seqnames    ranges strand |       names
@@ -49,4 +49,10 @@ seqnames    ranges strand |       names
 1.5 Mirror plot  
 
 
-3. GWAS + scQTLs (done online at https://bioinfo.szbl.ac.cn/scQTLbase/Colocalization/)
+2. GWAS + scQTLs (33 overlaps with GWAS signal, but nothing comes significant)
+   - MUC6 (N = 274)
+   - MUC2 (N = 0)
+   - MUC5AC (N = 5)
+   - MUC5B (N = 4)
+*NOTE: in scQTLbase, no REF or ALT allele was provided, so snps will be named based on chr_start only*
+*No  Signals came up*
