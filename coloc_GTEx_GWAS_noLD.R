@@ -1,6 +1,8 @@
 ## colocalization analysis; gbmi_asthma + GTEx QTLs
 #install.packages("devtools")
 #install_git("https://github.com/rjallen513/mirrorplot.git")
+#install.packages("qqman")
+BiocManager::install("EnsDb.Hsapiens.v86")
 library(devtools)
 library(data.table)
 library(coloc)
@@ -8,6 +10,8 @@ library(mirrorplot)
 library(dplyr)
 library(tidyr)
 library(arrow)
+#library(qqman)
+library(locuszoomr)
 
 ## DATA INDEX ##
 # df1 - GWAS
@@ -27,12 +31,38 @@ chr <- 11
 start <- 1012823
 end <- 1262172
 colnames(GWAS)[1] <- "CHR" ## remove the # in front of the column name
+## meta_p: asociation overall cohorts;het_p: heterogeneity across different cohorts.
 df1 <- subset(GWAS, CHR==chr & POS>start & POS<end)
 df1$comID <- paste(paste0("chr",df1$CHR), df1$POS, df1$REF, df1$ALT, "b38",sep = "_")
+
+## manhattan plot
+# df1_man <- data.frame("SNP" = df1$comID,
+#                       "CHR" = rep(11,nrow(df1)),
+#                       "BP" = df1$POS,
+#                       "P" = df1$inv_var_meta_p)
+# high_het_snps <- df1$comID[df1$inv_var_het_p<0.05]
+#manhattan(df1_man, chr = "CHR", bp = "BP", snp = "SNP", p = "P", highlight = high_het_snps)
+## qqman cannot zoom in a region of interest on the chromosome
+library(EnsDb.Hsapiens.v86)
+df1$p <- df1$inv_var_meta_p
+loc <- locus(df1, flank = 1e5, ens_db = "EnsDb.Hsapiens.v86", seqname = 11, xrange = c(1012823, 1262172))
+loc$data$pch <- ifelse(loc$data$inv_var_het_p>0.05, 21, 1)
+locus_plot(loc, pcutoff = 1e-5)
+
+#summary(df1$inv_var_meta_p<1e-5&df1$inv_var_het_p>0.05)
+filter <- df1$inv_var_meta_p<1e-5&df1$inv_var_het_p>0.05
+df1 <- df1[filter,]
 df1$comID2 <- paste(paste0("chr",df1$CHR), df1$POS, df1$ALT, df1$REF, "b38",sep = "_")
+# To calculate LD matrix, we need to save snp ID in the same format as UKBB
+df1_UKBB1 <- paste(df1$CHR, df1$POS, df1$REF, df1$ALT,sep = "_")
+df1_UKBB2 <- paste(df1$CHR, df1$POS, df1$ALT, df1$REF,sep = "_")
+write.table(df1_UKBB1, "/scratch/gen1/yz735/coloc/df1_UKBB1.txt", sep = "\t", row.names = F, quote = F, col.names = F)
+write.table(df1_UKBB2, "/scratch/gen1/yz735/coloc/df1_UKBB2.txt", sep = "\t", row.names = F, quote = F, col.names = F)
 #write.table(df1$comID, "/scratch/gen1/yz735/coloc/GWAS_ID1.txt", sep = "\t", row.names = F, quote = F)
 #write.table(df1$comID2, "/scratch/gen1/yz735/coloc/GWAS_ID2.txt", sep = "\t", row.names = F, quote = F)
 rm(GWAS)
+
+
 
 # 2. Prepare GTEx QTLs
 GTEx_eQTL <- fread("/scratch/gen1/yz735/coloc/GTEx_v10_Lung_QTLs/Lung.v10.eGenes.txt.gz")
