@@ -1,3 +1,7 @@
+## NO LONGER IN USE!! UKBB has very low coverge in the mucin region
+## USE UPDATED 1000 GENOME!
+
+
 ## Prepare LD matrix for gbmi_GWAS
 module load  plink/1.9-beta6.27-vhw5dr2 
 
