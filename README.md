@@ -4,6 +4,7 @@ Colocalization analysis for UoL Asthma MUC5AC project.
 # Data Description
 1. GWAS statistics are from gbmi_asthma (doi: 10.1016/j.xgen.2022.100212)
    - LD matrix from selected UKB_EUR cohort
+   - NOTE: no need to filter GWAS summary based on p-val
      
 2. xQTL data for healthy individuals in lung (GTEx eQTL, sQTL, mQTL, apaQTL (regular, conditional)
    - Regular vs. Conditional mQTL: Regular mQTLs report all marginal genotype–methylation associations, while conditional mQTLs provide the independent effects after adjusting for other signals at the same CpG. But we used regular mQTLs (permutated) at the end since the other files were too large and noisy
