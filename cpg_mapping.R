@@ -1,10 +1,10 @@
 # map cpg sites to nearest genes
-BiocManager::install("IlluminaHumanMethylation450kanno.ilmn12.hg19")
+# BiocManager::install("IlluminaHumanMethylation450kanno.ilmn12.hg19")
 library(IlluminaHumanMethylation450kanno.ilmn12.hg19)
 ann <- getAnnotation(IlluminaHumanMethylation450kanno.ilmn12.hg19)
 
 # Your CpG sites
-cpgs <- c("cg22186557", "cg16842717", "cg03298405")
+cpgs <- c("cg09690118")
 
 # Subset annotation
 mapped <- ann[cpgs, c("Name","chr","pos","UCSC_RefGene_Name","UCSC_RefGene_Group")]
@@ -24,3 +24,4 @@ download.file(
 chain <- import.chain("hg19ToHg38.over.chain")
 gr38 <- liftOver(gr, chain)
 gr38 <- unlist(gr38)
+gr38
