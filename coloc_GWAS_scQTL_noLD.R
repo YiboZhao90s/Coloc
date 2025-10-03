@@ -4,9 +4,8 @@ df1 <- read.delim("/scratch/gen1/yz735/coloc/GWAS_trimmed.txt", stringsAsFactors
 MUC6_scQTL <- read.delim("/scratch/gen1/yz735/coloc/scQTL/20251001_214445_MUC6.sc-eQTL.txt", stringsAsFactors = F)
 MUC5AC_scQTL <- read.delim("/scratch/gen1/yz735/coloc/scQTL/20251001_214339_MUC5AC.sc-eQTL.txt", stringsAsFactors = F)
 MUC5B_scQTL <- read.delim("/scratch/gen1/yz735/coloc/scQTL/20251001_214519_MUC5B.sc-eQTL.txt", stringsAsFactors = F)
-rm(list = c("MUC6_scQTL", "MUC5AC_scQTL", "MUC5B_scQTL"))
-
 scQTL <- rbind(MUC6_scQTL, MUC5AC_scQTL, MUC5B_scQTL)
+rm(list = c("MUC6_scQTL", "MUC5AC_scQTL", "MUC5B_scQTL"))
 
 library(coloc)
 library(mirrorplot)
@@ -18,6 +17,20 @@ library(tidyr)
 scQTL <- separate(scQTL, loci, into = c("CHR", "RANGE"), sep = ":")
 scQTL <- separate(scQTL, RANGE, into = c("start", "end"), sep = "-")
 scQTL$snp <- paste(scQTL$CHR, scQTL$end, sep = "_")
+scQTL$p <- scQTL$pValue
+scQTL$POS <- as.numeric(scQTL$start)
+scQTL$CHR <- rep(11, nrow(scQTL))
+##locus plot for scQTLs
+library(EnsDb.Hsapiens.v86)
+loc <- locus(scQTL, flank = 1e5, ens_db = "EnsDb.Hsapiens.v86", seqname = 11, xrange = c(1012823, 1262172))
+locus_plot(loc, pcutoff = 1e-5)
+
+write.table(df1, "/scratch/gen1/yz735/GWAS_trimmed.txt", quote = F, sep = "\t", row.names = F)
+df1$comID2 <- paste(paste0("chr",df1$CHR), df1$POS, df1$ALT, df1$REF, "b38",sep = "_")
+
+
+
+
 
 ## 674 NAs in GWAS rsid
 library(biomaRt)
@@ -68,7 +81,6 @@ MAF_res <- getBM(
                 values = scQTL_trimmed$variantId,
                 mart = snp_mart
         )
-MAF_res
 
 scQTL_trimmed$MAF <- MAF_res$minor_allele_freq[match(scQTL_trimmed$variantId, MAF_res$refsnp_id)]
 scQTL_trimmed <- scQTL_trimmed[!is.na(scQTL_trimmed$MAF),]
