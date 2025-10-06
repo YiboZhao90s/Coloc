@@ -15,4 +15,8 @@ plink --bfile ukb_imp_chr11_EUR_selected_b38 --extract range GWAS_SNPs --r2 squa
 
 ## After this, load LD matrix in R and plot LD heatmap
 
+######################
+### 1KG 2020 Panel ###
+######################
+plink --bfile CCDG_14151_B01_GRM_WGS_2020-08-05_chr11.filtered.shapeit2-duohmm-phased --extract range GWAS_SNPs --r2 square --out 1kg_LD_results
 
